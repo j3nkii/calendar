@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 function LoginForm() {
   const [username, setUsername] = useState('');
@@ -8,20 +8,15 @@ function LoginForm() {
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
 
-  const login = (event) => {
+  const login = async (event) => {
     event.preventDefault();
+    const userLogin = await axios.post('/api/user/login', {username, password});
+    console.log(userLogin);
+    dispatch({
+      type: 'SET_USER',
+      payload: userLogin,
+    })
 
-    if (username && password) {
-      dispatch({
-        type: 'LOGIN',
-        payload: {
-          username: username,
-          password: password,
-        },
-      });
-    } else {
-      dispatch({ type: 'LOGIN_INPUT_ERROR' });
-    }
   }; // end login
 
   return (

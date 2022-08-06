@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 function RegisterForm() {
   const [username, setUsername] = useState('');
@@ -9,6 +10,7 @@ function RegisterForm() {
 
   const registerUser = (event) => {
     event.preventDefault();
+    axios.post('/api/user/register', {username, password})
 
     dispatch({
       type: 'REGISTER',
